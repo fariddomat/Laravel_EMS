@@ -41,10 +41,9 @@ Favorite
     view 
 
 Bookings  
-    controller 
-    model 
-    view 
-    user 
+    controller #
+    model #
+    view #
 
 Carts  
     controller 

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Dashboard\BookingController;
 use App\Http\Controllers\Dashboard\FavoriteController;
+use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Home;
@@ -65,6 +66,15 @@ Route::middleware('auth', 'checkStatus')->group(function () {
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     // Update a booking
     Route::put('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
+    // Display list of notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+    // Store a new notification
+    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
+
+    // Mark a notification as read
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
