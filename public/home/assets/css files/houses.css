@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Peta:wght@100..900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap");
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Rubik;
+}
+body{
+    min-height: 100vh;
+    background: linear-gradient(45deg , #5b5757 50% , #171414 100%);
+    padding-bottom: 50px;
+}
+header{
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    margin-bottom: 40px;
+}
+header h1{
+    color: white;
+    text-transform: capitalize;
+}
+header .logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .logo img{
+    width: 36%;
+}
+header .logo .text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-right: 10px;
+}
+header .logo .text span{
+    color: white;
+    font-size: 25px;
+}
+.boxes{
+    display: grid;
+    grid-template-columns: repeat(auto-fill , minmax(350px , 1fr));
+    gap: 40px;
+    margin: 0 40px;
+}
+.boxes .box{
+    background-color: white;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    overflow: hidden;
+}
+.boxes .box img{
+    width: 100%;
+}
+.boxes .box .text_info{
+    padding: 10px 15px;
+}
+.boxes .box .text_info h3 i{
+    margin-right: 5px;
+}
+.boxes .box .text_info p{
+    color: #0000009c;
+    margin: 5px 0;
+}
+.boxes .box .stars{
+    margin-left: 10px;
+}
+.boxes .box .stars i{
+    color: gold;
+}
+.boxes .box .price{
+    margin: 10px;
+    font-size: 25px;
+}
+.boxes .box button{
+    margin: 0 10px 20px;
+    width: 125px;
+    height: 30px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    background-color: gold;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
