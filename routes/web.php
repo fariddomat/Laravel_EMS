@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\Dashboard\BookingController;
 use App\Http\Controllers\Dashboard\FavoriteController;
 use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -58,6 +59,13 @@ Route::middleware(['auth', 'checkStatus'])->group(function () {
 
 Route::middleware('auth', 'checkStatus')->group(function () {
 
+    // Display list of bookings
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    // Store a new booking
+    Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    // Update a booking
+    Route::put('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/updateInfo', [ProfileController::class, 'updateInfo'])->name('profile.updateInfo');
@@ -80,7 +88,7 @@ Route::middleware(['role:admin'])->prefix('dashboard')->name('dashboard.')->grou
     Route::get('/contact', [Dashboard\HomeController::class, 'contact'])->name('contact');
 });
 // owner
-Route::middleware(['role:admin||moderator|owner' , 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['role:admin||moderator|owner', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Routes accessible to admins and coach
 
     Route::resource('properties', Dashboard\PropertyController::class);
@@ -99,18 +107,19 @@ Route::middleware(['role:admin||moderator|owner' , 'checkStatus'])->prefix('dash
     Route::post('/imageGallery/uploader', [Dashboard\ImageGalleryController::class, 'uploader'])->name('imageGallery.uploader');
 });
 
-Route::middleware(['role:admin||moderator' , 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Routes accessible to admins and coach
 
     Route::resource('categories', Dashboard\CategoryController::class);
     Route::resource('companies', Dashboard\CompanyController::class);
+    Route::resource('events', Dashboard\EventController::class);
 
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');
     Route::post('/imageGallery/uploader', [Dashboard\ImageGalleryController::class, 'uploader'])->name('imageGallery.uploader');
 });
 
-Route::middleware(['auth' , 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
     // suggestion

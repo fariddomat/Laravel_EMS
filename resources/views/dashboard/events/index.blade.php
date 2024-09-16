@@ -1,3 +1,5 @@
+@extends('layouts.app')
+
 @section('styles')
     <link href="https://cdn.datatables.net/v/bs5/dt-2.0.3/b-3.0.1/r-3.0.1/rr-1.5.0/datatables.min.css" rel="stylesheet">
     <style>
@@ -9,11 +11,10 @@
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/b-3.0.1/r-3.0.1/rr-1.5.0/datatables.min.js" defer></script>
     <script>
         $(document).ready(function() {
-            var companiesTable = $("#Table").DataTable({
+            var eventsTable = $("#Table").DataTable({
                 searching: true,
                 paging: true,
                 info: false,
@@ -32,11 +33,10 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="row bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="col-6 text-white text-capitalize ps-3">Companies table</h6>
+                                <h6 class="col-6 text-white text-capitalize ps-3">Events Table</h6>
                                 <div class="col-6 text-end">
-                                    <a class="btn bg-gradient-dark mb-0"
-                                        href="{{ route('dashboard.companies.create') }}"><i
-                                            class="material-icons text-sm">add</i>
+                                    <a class="btn bg-gradient-dark mb-0" href="{{ route('dashboard.events.create') }}">
+                                        <i class="material-icons text-sm">add</i>
                                         &nbsp;&nbsp;Add
                                     </a>
                                 </div>
@@ -47,20 +47,23 @@
                                 <table id="Table" class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ID</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Name</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Type</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                ID
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Name
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Company
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Type
+                                            </th>
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($companies as $index => $company)
+                                        @foreach ($events as $index => $event)
                                             <tr>
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
@@ -73,7 +76,7 @@
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-capitalize">{{ $company->name }}</h6>
+                                                            <h6 class="mb-0 text-capitalize">{{ $event->name }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -81,21 +84,28 @@
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-capitalize">{{ $company->type }}</h6>
+                                                            <h6 class="mb-0 text-capitalize">{{ $event->company->name }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-capitalize">{{ $event->type }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
 
                                                 <td class="align-middle">
                                                     <a rel="tooltip" class="btn btn-success btn-link"
-                                                        href="{{ route('dashboard.companies.edit', $company) }}"
+                                                        href="{{ route('dashboard.events.edit', $event) }}"
                                                         data-original-title="" title="">
                                                         <i class="material-icons">edit</i>
                                                         <div class="ripple-container"></div>
                                                     </a>
 
-                                                    <form action="{{ route('dashboard.companies.destroy', $company) }}"
-                                                        method="POST" style="display: unset;">
+                                                    <form action="{{ route('dashboard.events.destroy', $event) }}" method="POST" style="display: unset;">
                                                         @csrf
                                                         @method('delete')
                                                         <button type="submit" class="btn btn-danger btn-link">

@@ -8,12 +8,12 @@ Users
 Companies ["Categories"]
     controller #
     model #
-    view 
+    view #
 
 Events
-    Controller 
-    model 
-    view 
+    Controller #
+    model #
+    view #
 
 Packages
     Controller

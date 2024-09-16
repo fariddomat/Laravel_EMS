@@ -27,6 +27,11 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
     /**
      * إعداد الحقول images و videos للتعامل معها كـ JSON
      */

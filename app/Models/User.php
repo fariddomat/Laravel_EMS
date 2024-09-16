@@ -48,10 +48,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function companies(){
+    public function companies()
+    {
         return $this->hasMany(Company::class);
     }
-    public function properties(){
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+    public function properties()
+    {
         return $this->hasMany(Property::class);
     }
     public function orders()
