@@ -65,6 +65,10 @@ login
 register
 companies #resource
 events #resource
+events #resource
+events #resource
+events #resource
+events #resource
 
 --------------------------------------
 
