@@ -16,15 +16,7 @@ class SiteController extends Controller
 {
     public function home()
     {
-        $categories = Category::all();
-        $properties = Property::where('status','available')->latest()->take(6)->get(); // Example: show latest 6 properties
-        $owners=User::Role('owner')->get();
 
-        $totalClients = User::Role('user')->count(); // Assuming 'role' field defines the user role
-        $totalProperties = Property::count();
-        $totalOwners = User::Role('owner')->count(); // Assuming 'role' field defines the user role
-
-        return view('site.home', compact('categories', 'properties', 'owners', 'totalClients', 'totalProperties', 'totalOwners'));
     }
 
     public function categories()

@@ -56,6 +56,17 @@ CommentsRatings
     model #
     view #
 
+--------------------------------------
+
+API
+
+user
+login
+register
+companies #resource
+events #resource
+
+--------------------------------------
 
 
 site.blade.php
