@@ -16,6 +16,15 @@
                         </div>
 
                         <div class="mb-3 col-md-6">
+                            <label class="form-label">Price</label>
+                            <input name="price" type="text" class="form-control border border-2 p-2"
+                                value="{{ old('price', $event->price) }}">
+                            @error('price')
+                                <p class='text-danger inputerror'>{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-md-6">
                             <label class="form-label">Description</label>
                             <textarea name="description" class="form-control border border-2 p-2" cols="30" rows="10">{{ old('description', $event->description) }}</textarea>
                             @error('description')

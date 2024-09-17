@@ -49,7 +49,7 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Property</th>
+                                            <th>Event</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -57,7 +57,7 @@
                                         @foreach ($favorites as $favorite)
                                             <tr>
                                                 <td>{{ $favorite->id }}</td>
-                                                <td>{{ $favorite->property?->name }}</td>
+                                                <td>{{ $favorite->event?->name }}</td>
                                                 <td>
                                                     <form action="{{ route('dashboard.favorites.destroy', $favorite->id) }}" method="POST" style="display:inline;">
                                                         @csrf

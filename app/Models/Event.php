@@ -16,6 +16,7 @@ class Event extends Model
         'description',
         'images',
         'videos',
+        'price'
     ];
 
     // Cast the images and videos attributes to arrays.

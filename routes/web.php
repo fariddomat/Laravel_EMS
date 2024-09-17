@@ -123,6 +123,9 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
     Route::resource('categories', Dashboard\CategoryController::class);
     Route::resource('companies', Dashboard\CompanyController::class);
     Route::resource('events', Dashboard\EventController::class);
+    Route::resource('blog_news', Dashboard\BlogNewsController::class);
+    Route::resource('comments_ratings', Dashboard\CommentRatingController::class);
+    Route::resource('payments', Dashboard\PaymentController::class);
 
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');

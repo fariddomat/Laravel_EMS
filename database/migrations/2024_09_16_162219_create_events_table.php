@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained()->onDelete('cascade'); // Foreign key to companies table
             $table->string('name'); // Event name
             $table->text('description'); // Event description
+            $table->text('price'); // Event price
             $table->json('images'); // List of images
             $table->json('videos'); // List of videos
             $table->timestamps(); // Created at and updated at

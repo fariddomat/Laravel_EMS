@@ -21,24 +21,24 @@ Packages
     view
 
 Notifications
-    Controller
-    model
-    view
+    Controller #
+    model #
+    view #
 
 Blog
-    Controller
-    model
-    view
+    Controller #
+    model #
+    view #
 
 Payemnt
-    Controller
-    model
-    view
+    Controller #
+    model #
+    view #
 
 Favorite
-    Controller 
-    model 
-    view 
+    Controller #
+    model #
+    view #
 
 Bookings  
     controller #
@@ -52,9 +52,9 @@ Carts
     user 
 
 CommentsRatings 
-    controller 
-    model 
-    view 
+    controller #
+    model #
+    view #
 
 
 

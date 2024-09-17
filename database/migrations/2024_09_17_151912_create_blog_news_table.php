@@ -5,22 +5,20 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('blog_news', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('proprty_id');
-            $table->text('message')->nullable();
-            $table->string('status')->default('pending');
-            $table->text('reply')->nullable();
+            $table->string('title');
+            $table->text('content');
+            $table->json('images')->nullable();
+            $table->json('videos')->nullable();
+            $table->foreignId('author_id')->constrained('users')->onDelete('cascade'); // Foreign key referencing 'users'
             $table->timestamps();
-
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('blog_news');
     }
 };

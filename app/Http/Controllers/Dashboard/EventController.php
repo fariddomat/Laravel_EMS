@@ -35,6 +35,7 @@ class EventController extends Controller
             'company_id' => 'required|exists:companies,id',
             'name' => 'required',
             'description' => 'required',
+            'price' => 'required',
             'images' => 'nullable|array',
             'videos' => 'nullable|array',
         ]);
@@ -84,6 +85,7 @@ class EventController extends Controller
             'company_id' => 'required|exists:companies,id',
             'name' => 'required',
             'description' => 'required',
+            'price' => 'required',
             'images' => 'nullable|array',
             'videos' => 'nullable|array',
         ]);
