@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -23,7 +24,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('dashboard.companies.create');
+        $users=User::all();
+        return view('dashboard.companies.create', compact('users'));
     }
 
     /**
@@ -35,7 +37,7 @@ class CompanyController extends Controller
             'name' => 'required',
             'description' => 'required',
             'images' => 'required',
-            'videos' => 'required',
+            'videos' => 'nullable',
             'roles' => 'required',
             'type' => 'required|in:person,website'
         ]);
@@ -73,7 +75,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return view('dashboard.companies.edit', compact('company'));
+        $users=User::all();
+        return view('dashboard.companies.edit', compact('company', 'users'));
     }
 
     /**

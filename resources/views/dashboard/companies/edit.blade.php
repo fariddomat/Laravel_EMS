@@ -14,6 +14,19 @@
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">User</label>
+                            <select name="user_id" class="form-control border border-2 p-2">
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" @if ($user->id == $company->user_id)
+                                    selected
+                                @endif>{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                            @enderror
+                        </div>
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Description</label>

@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('roles'); // العمود roles يحتوي على قائمة الأدوار
             $table->string('name'); // العمود name
             $table->text('description'); // العمود description
-            $table->json('images'); // العمود images يحتوي على قائمة الصور بتنسيق JSON
-            $table->json('videos'); // العمود videos يحتوي على قائمة الفيديوهات بتنسيق JSON
+            $table->json('images')->nullable(); // العمود images يحتوي على قائمة الصور بتنسيق JSON
+            $table->json('videos')->nullable(); // العمود videos يحتوي على قائمة الفيديوهات بتنسيق JSON
             $table->timestamps(); // العمودين created_at و updated_at
 
             // Foreign key constraint على user_id
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        
+
         });
     }
 

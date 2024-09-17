@@ -13,7 +13,17 @@
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror
                         </div>
-
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">User</label>
+                            <select name="user_id" class="form-control border border-2 p-2">
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                            @enderror
+                        </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Description</label>
                             <textarea name="description" class="form-control border border-2 p-2" cols="30" rows="10">{{ old('description') }}</textarea>

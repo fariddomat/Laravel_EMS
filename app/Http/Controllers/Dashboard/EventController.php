@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('dashboard.events.create');
+        $companies=Company::all();
+        return view('dashboard.events.create',  compact('companies'));
     }
 
     /**
@@ -51,7 +53,7 @@ class EventController extends Controller
                 $imagePaths[] = $imageHelper->storeImageInPublicDirectory($image, '/uploads/events/images', 600, 400);
             }
         }
-
+        
         if ($request->has('videos')) {
             $videoPaths = [];
             foreach ($videos as $video) {
@@ -73,7 +75,9 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('dashboard.events.edit', compact('event'));
+
+        $companies=Company::all();
+        return view('dashboard.events.edit', compact('event', 'companies'));
     }
 
     /**

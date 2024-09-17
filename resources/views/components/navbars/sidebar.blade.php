@@ -26,16 +26,16 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Users</h6>
             </li>
             @if (auth()->user()->hasRole('admin'))
-            <li class="nav-item">
-                <a class="nav-link text-white {{ Route::currentRouteName() == 'dashboard.statistics.index' ? ' active bg-gradient-primary' : '' }}"
-                    href="{{ route('dashboard.statistics.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ Route::currentRouteName() == 'dashboard.statistics.index' ? ' active bg-gradient-primary' : '' }}"
+                        href="{{ route('dashboard.statistics.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 
-                        <i class="material-icons opacity-10">book</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Statistics</span>
-                </a>
-            </li>
+                            <i class="material-icons opacity-10">book</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Statistics</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-white {{ Route::currentRouteName() == 'dashboard.users.index' ? ' active bg-gradient-primary' : '' }}"
                         href="{{ route('dashboard.users.index') }}">
@@ -77,54 +77,49 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.orders.admin' ? ' active bg-gradient-primary' : '' }} "
-                        href="{{ route('dashboard.orders.admin') }}">
+                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.orders.index' ? ' active bg-gradient-primary' : '' }} "
+                        href="{{ route('dashboard.bookings.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">book</i>
                         </div>
-                        <span class="nav-link-text ms-1">Orders</span>
+                        <span class="nav-link-text ms-1">Bookings</span>
                     </a>
                 </li>
             @endif
-            @if (auth()->user()->hasRole('owner'))
 
-            <li class="nav-item">
-                <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.orders.owner' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('dashboard.orders.owner') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">book</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Orders</span>
-                </a>
-            </li>
-            @endif
-            @if (auth()->user()->hasRole('user'))
 
-            <li class="nav-item">
-                <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.orders.user' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('dashboard.orders.user') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">book</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Orders</span>
-                </a>
-            </li>
-            @endif
             @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('moderator') || auth()->user()->hasRole('owner'))
-
-            <li class="nav-item">
-                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.properties.index' ? ' active bg-gradient-primary' : '' }} "
-                        href="{{ route('dashboard.properties.index') }}">
+                <li class="nav-item">
+                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.events.index' ? ' active bg-gradient-primary' : '' }} "
+                        href="{{ route('dashboard.events.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">view_in_ar</i>
                         </div>
-                        <span class="nav-link-text ms-1">Property</span>
+                        <span class="nav-link-text ms-1">Events</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.comments.index' ? ' active bg-gradient-primary' : '' }} "
-                        href="{{ route('dashboard.comments.index') }}">
+                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.companies.index' ? ' active bg-gradient-primary' : '' }} "
+                        href="{{ route('dashboard.companies.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Companies</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.blog_news.index' ? ' active bg-gradient-primary' : '' }} "
+                        href="{{ route('dashboard.blog_news.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Blog</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.comments_ratings.index' ? ' active bg-gradient-primary' : '' }} "
+                        href="{{ route('dashboard.comments_ratings.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">book</i>
                         </div>

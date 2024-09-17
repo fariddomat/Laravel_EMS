@@ -84,7 +84,6 @@ Route::middleware('auth', 'checkStatus')->group(function () {
 Route::middleware(['auth', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::delete('favorites/{id}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
-    Route::get('/orders/user', [OrderController::class, 'indexUser'])->name('orders.user');
 
     // suggestion
 });
@@ -101,16 +100,6 @@ Route::middleware(['role:admin'])->prefix('dashboard')->name('dashboard.')->grou
 Route::middleware(['role:admin||moderator|owner', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Routes accessible to admins and coach
 
-    Route::resource('properties', Dashboard\PropertyController::class);
-    Route::resource('properties/{property}/image', Dashboard\PropertyImageController::class)->except(['show', 'edit', 'update']);
-
-    Route::get('/orders/admin', [OrderController::class, 'indexAdmin'])->name('orders.admin');
-    Route::get('/orders/owner', [OrderController::class, 'indexOwner'])->name('orders.owner');
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-    Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
-
-    Route::resource('comments', Dashboard\CommentController::class);
-
 
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');
@@ -126,6 +115,7 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
     Route::resource('blog_news', Dashboard\BlogNewsController::class);
     Route::resource('comments_ratings', Dashboard\CommentRatingController::class);
     Route::resource('payments', Dashboard\PaymentController::class);
+    Route::resource('bookings', Dashboard\BookingController::class);
 
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');
@@ -133,7 +123,6 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
 });
 
 Route::middleware(['auth', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
     // suggestion
 });

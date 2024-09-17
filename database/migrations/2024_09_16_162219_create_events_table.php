@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name'); // Event name
             $table->text('description'); // Event description
             $table->text('price'); // Event price
-            $table->json('images'); // List of images
-            $table->json('videos'); // List of videos
+            $table->json('images')->nullable(); // List of images
+            $table->json('videos')->nullable(); // List of videos
             $table->timestamps(); // Created at and updated at
         });
     }
