@@ -65,10 +65,11 @@ login
 register
 companies #resource
 events #resource
-events #resource
-events #resource
-events #resource
-events #resource
+bookings #resource
+payments #resource
+favorites #resource
+notifications #resource
+comments-ratings #resource
 
 --------------------------------------
 
