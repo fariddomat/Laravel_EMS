@@ -11,7 +11,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        return response()->json(Event::all());
+        return response()->json(Event::with('company')->get());
     }
 
     public function store(Request $request)
@@ -33,8 +33,9 @@ class EventController extends Controller
         return response()->json($event, 201);
     }
 
-    public function show(Event $event)
+    public function show($id)
     {
+        $event = Event::with('company')->findOrFail($id);  // Load the company relationship
         return response()->json($event);
     }
 
