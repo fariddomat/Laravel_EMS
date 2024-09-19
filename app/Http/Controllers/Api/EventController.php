@@ -36,7 +36,7 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::with(['company', 'comments.user'])->findOrFail($id);  // Load the company relationship
-        return response()->json($event);
+        return response()->json($event->append('is_favorite'));
     }
 
     public function update(Request $request, Event $event)

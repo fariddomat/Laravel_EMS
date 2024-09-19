@@ -35,7 +35,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('bookings', BookingController::class);
 
     // Favorite routes
-    Route::apiResource('favorites', FavoriteController::class);
+        // Get all favorites for the authenticated user
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+
+        // Add a new favorite
+        Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+
+        // Show a specific favorite (optional, if you need to view a specific favorite)
+        Route::get('/favorites/{favorite}', [FavoriteController::class, 'show'])->name('favorites.show');
+
+        // Update a favorite (if needed)
+        Route::put('/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update');
+
+        // Remove a favorite
+        Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+
 
     // Notification routes
     Route::apiResource('notifications', NotificationController::class);
@@ -44,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('comments-ratings', CommentRatingController::class);
     Route::post('/comments', [CommentRatingController::class, 'store']);  // Store comment
     Route::delete('/comments/{id}', [CommentRatingController::class, 'destroy']);  // Delete comment
+    // Route::apiResource('events', EventController::class);
 
 });
 

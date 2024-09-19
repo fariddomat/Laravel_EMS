@@ -61,15 +61,16 @@ CommentsRatings
 API
 
 user
-login
-register
-companies #resource
-events #resource
+login #
+register #
+logout #
+companies #resource #
+events #resource #
 bookings #resource
 payments #resource
 favorites #resource
 notifications #resource
-comments-ratings #resource
+comments-ratings #resource #
 
 --------------------------------------
 

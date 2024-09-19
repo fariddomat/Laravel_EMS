@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Event extends Model
 {
@@ -37,5 +38,17 @@ class Event extends Model
 
     public function comments(){
         return $this->hasMany(CommentRating::class);
+    }
+    public function getIsFavoriteAttribute()
+    {
+        // Check if a user is authenticated
+        if (Auth::check()) {
+            return $this->favorites()->where('user_id', Auth::id())->exists();
+        }
+        return false;  // Not favorited if the user is not authenticated
+    }
+    public function favorites()
+    {
+        return $this->hasMany(favorite::class);
     }
 }
