@@ -42,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // CommentRating routes
     Route::apiResource('comments-ratings', CommentRatingController::class);
+    Route::post('/comments', [CommentRatingController::class, 'store']);  // Store comment
+    Route::delete('/comments/{id}', [CommentRatingController::class, 'destroy']);  // Delete comment
+
 });
 
 // Company routes

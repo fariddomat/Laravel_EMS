@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\CommentRating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CommentRatingController extends Controller
@@ -16,20 +17,19 @@ class CommentRatingController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'event_id' => 'required|exists:events,id',
-            'user_id' => 'required|exists:users,id',
-            'comment' => 'nullable|string',
+            'comment' => 'required|string|max:500',
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $commentRating = CommentRating::create($request->all());
-
-        return response()->json($commentRating, 201);
+        $comment = CommentRating::create([
+            'event_id' => $validatedData['event_id'],
+            'user_id' => Auth::id(),
+            'comment' => $validatedData['comment'],
+            'rating' => $validatedData['rating'],
+        ]);
+        return response()->json($comment, 201);
     }
 
     public function show(CommentRating $commentRating)
