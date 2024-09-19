@@ -68,10 +68,11 @@ companies #resource #
 events #resource #
 bookings #resource
 payments #resource
-favorites #resource
+favorites #resource #
 notifications #resource
 comments-ratings #resource #
-
+about #
+contactUs #
 --------------------------------------
 
 

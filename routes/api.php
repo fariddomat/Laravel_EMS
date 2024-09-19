@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\API\BookingController;
 use App\Http\Controllers\API\CommentRatingController;
 use App\Http\Controllers\API\CompanyController;
+use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\NotificationController;
@@ -67,6 +68,9 @@ Route::apiResource('companies', CompanyController::class);
 
 // Event routes
 Route::apiResource('events', EventController::class);
+
+
+Route::post('/contacts', [ContactController::class, 'store']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
