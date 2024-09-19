@@ -71,31 +71,30 @@ payments #resource
 favorites #resource #
 notifications #resource
 comments-ratings #resource #
-about #
-contactUs #
+
 --------------------------------------
-
-
-site.blade.php
+Navbar #
+Footer #
 
 home 
-    search 
-    events 
-    companies 
+    events #
+    companies #
 
-companies  
-events 
+companies #
+events #
 
 event 
-    Details 
-    images
-    videos
-    comments  & Raing
-    favorite 
+    Details #
+    images #
+    videos #
+    comments  & Raing #
+    favorite #
     booking
 
-contact 
+contact #
+about #
 
 statistics 
+website info
 approve accounts (admin)  and events (admin and moderators) 
 

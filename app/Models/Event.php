@@ -51,4 +51,8 @@ class Event extends Model
     {
         return $this->hasMany(favorite::class);
     }
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'package_event');
+    }
 }

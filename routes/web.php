@@ -116,6 +116,7 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
     Route::resource('comments_ratings', Dashboard\CommentRatingController::class);
     Route::resource('payments', Dashboard\PaymentController::class);
     Route::resource('bookings', Dashboard\BookingController::class);
+    Route::resource('packages', Dashboard\PackageController::class);
 
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');

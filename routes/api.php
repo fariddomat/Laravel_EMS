@@ -23,6 +23,7 @@ use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\PackageController;
 
 Route::middleware('auth:sanctum')->group(function () {
     // Authenticated routes
@@ -69,6 +70,12 @@ Route::apiResource('companies', CompanyController::class);
 // Event routes
 Route::apiResource('events', EventController::class);
 
+
+Route::get('/packages', [PackageController::class, 'index']);
+Route::post('/packages', [PackageController::class, 'store']);
+Route::get('/packages/{id}', [PackageController::class, 'show']);
+Route::put('/packages/{id}', [PackageController::class, 'update']);
+Route::delete('/packages/{id}', [PackageController::class, 'destroy']);
 
 Route::post('/contacts', [ContactController::class, 'store']);
 Route::post('login', [AuthController::class, 'login']);
