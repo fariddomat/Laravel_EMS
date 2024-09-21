@@ -9,11 +9,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <h6>User ID:</h6>
-                    <p>{{ $payment->user_id }}</p>
+                    <p>{{ $payment->user?->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <h6>Event ID:</h6>
-                    <p>{{ $payment->event_id }}</p>
+                    <p>{{ $payment->event?->name }}</p>
                 </div>
                 <div class="col-md-6">
                     <h6>Amount:</h6>

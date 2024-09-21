@@ -34,23 +34,26 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('payments', PaymentController::class);
 
     // Booking routes
-    Route::apiResource('bookings', BookingController::class);
+
+    Route::post('/bookings', [BookingController::class, 'store']);
+    Route::get('/user-bookings', [BookingController::class, 'userBookings']);
+    Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancelBooking']);
 
     // Favorite routes
-        // Get all favorites for the authenticated user
-        Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    // Get all favorites for the authenticated user
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
-        // Add a new favorite
-        Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+    // Add a new favorite
+    Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
 
-        // Show a specific favorite (optional, if you need to view a specific favorite)
-        Route::get('/favorites/{favorite}', [FavoriteController::class, 'show'])->name('favorites.show');
+    // Show a specific favorite (optional, if you need to view a specific favorite)
+    Route::get('/favorites/{favorite}', [FavoriteController::class, 'show'])->name('favorites.show');
 
-        // Update a favorite (if needed)
-        Route::put('/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update');
+    // Update a favorite (if needed)
+    Route::put('/favorites/{favorite}', [FavoriteController::class, 'update'])->name('favorites.update');
 
-        // Remove a favorite
-        Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    // Remove a favorite
+    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 
 
     // Notification routes

@@ -25,8 +25,8 @@
                         @foreach ($payments as $payment)
                             <tr>
                                 <td>{{ $payment->id }}</td>
-                                <td>{{ $payment->user_id }}</td>
-                                <td>{{ $payment->event_id }}</td>
+                                <td>{{ $payment->user?->name }}</td>
+                                <td>{{ $payment->event?->name }}</td>
                                 <td>{{ $payment->amount }}</td>
                                 <td>{{ $payment->status }}</td>
                                 <td>

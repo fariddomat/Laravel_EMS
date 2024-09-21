@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -22,7 +24,9 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return view('dashboard.payments.create');
+        $users=User::all();
+        $events=Event::all();
+        return view('dashboard.payments.create', compact('users', 'events'));
     }
 
     /**
@@ -55,7 +59,10 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        return view('dashboard.payments.edit', compact('payment'));
+
+        $users=User::all();
+        $events=Event::all();
+        return view('dashboard.payments.edit', compact('payment', 'users', 'events'));
     }
 
     /**

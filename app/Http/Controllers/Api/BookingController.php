@@ -5,49 +5,51 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Booking::all());
-    }
 
+    // Function to create a new booking
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'event_id' => 'required|exists:events,id',
-            'user_id' => 'required|exists:users,id',
-            'booking_date' => 'required|date',
-            'status' => 'required|in:confirmed,pending,cancelled',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+        // Create booking with status 'pending' by default and get the logged-in user ID
+        $booking = Booking::create([
+            'event_id' => $request->event_id,
+            'user_id' => Auth::id(),
+            'booking_date' => $request->booking_date,
+            'status' => 'pending', // default status
+        ]);
+
+        return response()->json(['message' => 'Booking created successfully', 'booking' => $booking], 201);
+    }
+
+    // Function to retrieve all bookings for the logged-in user
+    public function userBookings()
+    {
+        $bookings = Booking::with('event')->where('user_id', Auth::id())->get();
+
+        return response()->json($bookings);
+    }
+
+    public function cancelBooking($id)
+    {
+        $booking = Booking::find($id);
+
+        // Ensure the booking exists and is not approved yet
+        if (!$booking || $booking->status === 'approved') {
+            return response()->json(['error' => 'Cannot cancel this booking.'], 403);
         }
 
-        $booking = Booking::create($request->all());
+        // If booking is cancellable, update the status
+        $booking->status = 'cancelled';
+        $booking->save();
 
-        return response()->json($booking, 201);
-    }
-
-    public function show(Booking $booking)
-    {
-        return response()->json($booking);
-    }
-
-    public function update(Request $request, Booking $booking)
-    {
-        $booking->update($request->all());
-
-        return response()->json($booking);
-    }
-
-    public function destroy(Booking $booking)
-    {
-        $booking->delete();
-
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Booking cancelled successfully.', 'booking' => $booking]);
     }
 }

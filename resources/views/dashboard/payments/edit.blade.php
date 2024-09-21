@@ -12,14 +12,26 @@
                 <div class="row">
                     <div class="mb-3 col-md-6">
                         <label class="form-label">User ID</label>
-                        <input name="user_id" type="number" class="form-control border border-2 p-2" value="{{ old('user_id', $payment->user_id) }}">
+                        <select name="user_id" class="form-control border border-2 p-2" id="">
+                            @foreach ($users as $user)
+                            <option value="{{ $user->id }}" @if ($payment->user_id == $user->id)
+                                selected
+                            @endif>{{ $user->name }}</option>
+                            @endforeach
+                        </select>
                         @error('user_id')
                             <p class='text-danger inputerror'>{{ $message }} </p>
                         @enderror
                     </div>
                     <div class="mb-3 col-md-6">
                         <label class="form-label">Event ID</label>
-                        <input name="event_id" type="number" class="form-control border border-2 p-2" value="{{ old('event_id', $payment->event_id) }}">
+                        <select name="event_id" class="form-control border border-2 p-2" id="">
+                            @foreach ($events as $event)
+                            <option value="{{ $event->id }}" @if ($payment->event_id == $event->id)
+                                selected
+                            @endif>{{ $event->name }}</option>
+                            @endforeach
+                        </select>
                         @error('event_id')
                             <p class='text-danger inputerror'>{{ $message }} </p>
                         @enderror
