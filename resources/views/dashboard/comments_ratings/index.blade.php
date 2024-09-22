@@ -29,9 +29,9 @@
                                 <td>{{ $commentRating->comment }}</td>
                                 <td>{{ $commentRating->rating }}</td>
                                 <td class="align-middle">
-                                    <a href="{{ route('dashboard.comments_ratings.edit', $commentRating->id) }}" class="btn btn-success btn-link">
+                                    {{-- <a href="{{ route('dashboard.comments_ratings.edit', $commentRating->id) }}" class="btn btn-success btn-link">
                                         <i class="material-icons">edit</i>
-                                    </a>
+                                    </a> --}}
                                     <form action="{{ route('dashboard.comments_ratings.destroy', $commentRating->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')

@@ -30,33 +30,10 @@ Route::get('/dashboard/home', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/pusher/auth', function () {
-    return Auth::user();
-});
+Route::get('/', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('home');
 
-Route::get('/', [SiteController::class, 'home'])->name('home');
-Route::get('/categories', [SiteController::class, 'categories'])->name('categories');
-Route::get('/categories/{category}', [SiteController::class, 'properties'])->name('properties');
-Route::get('/property/{property}', [SiteController::class, 'property'])->name('property');
-Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
-Route::post('/contact', [SiteController::class, 'sendContact'])->name('sendContact');
-Route::get('/search', [SiteController::class, 'search'])->name('search');
-
-Route::get('/about', [SiteController::class, 'about'])->name('about');
-
-
-// Ensure that the user is authenticated for these routes
-Route::middleware(['auth', 'checkStatus'])->group(function () {
-
-
-
-    Route::get('/property/{property}/order', [SiteController::class, 'orderForm'])->name('order.form');
-    Route::post('/property/{property}/order', [SiteController::class, 'processOrder'])->name('order.process');
-    Route::get('/checkout', [SiteController::class, 'checkout'])->name('checkout');
-
-    Route::post('/property/{property}/favorite', [SiteController::class, 'addToFavorite'])->name('addToFavorite');
-    Route::post('/property/{property}/comment', [SiteController::class, 'comment'])->name('comment');
-});
 
 Route::middleware('auth', 'checkStatus')->group(function () {
 

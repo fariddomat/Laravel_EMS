@@ -53,8 +53,16 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">إجمالي العقارات</h5>
-                        <p class="card-text">{{ $totalProperties }}</p>
+                        <h5 class="card-title">إجمالي الشركات</h5>
+                        <p class="card-text">{{ $companies }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">إجمالي الفعاليات</h5>
+                        <p class="card-text">{{ $events }}</p>
                     </div>
                 </div>
             </div>
@@ -62,7 +70,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">إجمالي الطلبات</h5>
-                        <p class="card-text">{{ $totalOrders }}</p>
+                        <p class="card-text">{{ $bookings }}</p>
                     </div>
                 </div>
             </div>

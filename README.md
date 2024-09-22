@@ -98,12 +98,12 @@ contact #
 about #
 update profile #
 
-blog
-companeis and event button from home screen
+blog #
+companeis and event button from home screen #
+statistics  #
+website info #
+counter #
 
-
-statistics 
-website info
 approve accounts (admin)  and events (admin and moderators) 
 check previllege
 fill data

@@ -73,8 +73,10 @@ class CommentRatingController extends Controller
      * @param \App\Models\CommentRating $commentRating
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CommentRating $commentRating)
+    public function update(Request $request, $id)
     {
+
+        $commentRating=CommentRating::findOrFail($id);
         $request->validate([
             'event_id' => 'required|exists:events,id',
             'user_id' => 'required|exists:users,id',
@@ -93,8 +95,11 @@ class CommentRatingController extends Controller
      * @param \App\Models\CommentRating $commentRating
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CommentRating $commentRating)
+    public function destroy($id)
     {
+        $commentRating=CommentRating::findOrFail($id);
+
+        // dd($commentRating);
         $commentRating->delete();
         return redirect()->route('dashboard.comments_ratings.index')->with('success', 'Comment/Rating deleted successfully.');
     }

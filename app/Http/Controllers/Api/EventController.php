@@ -11,7 +11,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        return response()->json(Event::with('company')->get());
+        return response()->json(Event::where('status','accepted')->with('company')->get());
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::with(['company', 'comments.user'])->findOrFail($id);  // Load the company relationship
+        $event = Event::where('status','accepted')->with(['company', 'comments.user'])->findOrFail($id);  // Load the company relationship
         return response()->json($event->append('is_favorite'));
     }
 
@@ -55,7 +55,7 @@ class EventController extends Controller
     public function getEventsByCompany($companyId)
     {
         // Retrieve events associated with the company
-        $events = Event::where('company_id', $companyId)->get();
+        $events = Event::where('status','accepted')->where('company_id', $companyId)->get();
 
         if ($events->isEmpty()) {
             return response()->json(['message' => 'No events found for this company'], 404);
