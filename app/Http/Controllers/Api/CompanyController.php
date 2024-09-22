@@ -32,9 +32,11 @@ class CompanyController extends Controller
         return response()->json($company, 201);
     }
 
-    public function show(Company $company)
+    public function show($id)
     {
-        return response()->json($company);
+        $company = Company::with('events')->findOrFail($id); // Eager load events related to the company
+        return response()->json($company); // Return company with its related events as JSON
+
     }
 
     public function update(Request $request, Company $company)

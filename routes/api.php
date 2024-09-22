@@ -71,6 +71,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Company routes
 Route::apiResource('companies', CompanyController::class);
+// Get a single company with its events
+
+// Get events for a specific company
+Route::get('/companies/{id}/events', [EventController::class, 'getEventsByCompany']);
 
 // Event routes
 Route::apiResource('events', EventController::class);

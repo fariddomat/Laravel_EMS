@@ -52,4 +52,15 @@ class EventController extends Controller
 
         return response()->json(null, 204);
     }
+    public function getEventsByCompany($companyId)
+    {
+        // Retrieve events associated with the company
+        $events = Event::where('company_id', $companyId)->get();
+
+        if ($events->isEmpty()) {
+            return response()->json(['message' => 'No events found for this company'], 404);
+        }
+
+        return response()->json($events); // Return the events as JSON
+    }
 }
