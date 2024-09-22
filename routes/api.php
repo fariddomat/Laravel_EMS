@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\API\BookingController;
 use App\Http\Controllers\API\CommentRatingController;
 use App\Http\Controllers\API\CompanyController;
@@ -86,6 +87,10 @@ Route::post('/packages', [PackageController::class, 'store']);
 Route::get('/packages/{id}', [PackageController::class, 'show']);
 Route::put('/packages/{id}', [PackageController::class, 'update']);
 Route::delete('/packages/{id}', [PackageController::class, 'destroy']);
+
+
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{id}', [BlogController::class, 'show']);
 
 Route::post('/contacts', [ContactController::class, 'store']);
 Route::post('login', [AuthController::class, 'login']);

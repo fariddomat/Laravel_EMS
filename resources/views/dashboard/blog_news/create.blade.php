@@ -17,27 +17,27 @@
                 @csrf
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" name="title" class="form-control" id="title" value="{{ old('title') }}" required>
+                    <input type="text" name="title" class="form-control border border-2 p-2" id="title" value="{{ old('title') }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="content" class="form-label">Content</label>
-                    <textarea name="content" class="form-control" id="content" rows="5" required>{{ old('content') }}</textarea>
+                    <textarea name="content" class="form-control border border-2 p-2" id="content" rows="5" required>{{ old('content') }}</textarea>
                 </div>
 
                 <div class="mb-3">
                     <label for="images" class="form-label">Images</label>
-                    <input type="file" name="images[]" class="form-control" id="images" multiple>
+                    <input type="file" name="images[]" class="form-control border border-2 p-2" id="images" multiple>
                 </div>
 
                 <div class="mb-3">
                     <label for="videos" class="form-label">Videos</label>
-                    <input type="file" name="videos[]" class="form-control" id="videos" multiple>
+                    <input type="file" name="videos[]" class="form-control border border-2 p-2" id="videos" multiple>
                 </div>
 
                 <div class="mb-3">
                     <label for="author_id" class="form-label">Author</label>
-                    <select name="author_id" class="form-control" id="author_id" required>
+                    <select name="author_id" class="form-control border border-2 p-2" id="author_id" required>
                         <option value="">Select Author</option>
                         @foreach($authors as $author)
                             <option value="{{ $author->id }}" {{ old('author_id') == $author->id ? 'selected' : '' }}>

@@ -19,17 +19,17 @@
 
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" name="title" class="form-control" id="title" value="{{ old('title', $post->title) }}" required>
+                    <input type="text" name="title" class="form-control border border-2 p-2" id="title" value="{{ old('title', $post->title) }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="content" class="form-label">Content</label>
-                    <textarea name="content" class="form-control" id="content" rows="5" required>{{ old('content', $post->content) }}</textarea>
+                    <textarea name="content" class="form-control border border-2 p-2" id="content" rows="5" required>{{ old('content', $post->content) }}</textarea>
                 </div>
 
                 <div class="mb-3">
                     <label for="images" class="form-label">Images</label>
-                    <input type="file" name="images[]" class="form-control" id="images" multiple>
+                    <input type="file" name="images[]" class="form-control border border-2 p-2" id="images" multiple>
                     @if ($post->images)
                         <div class="mt-2">
                             <p>Existing Images:</p>
@@ -42,7 +42,7 @@
 
                 <div class="mb-3">
                     <label for="videos" class="form-label">Videos</label>
-                    <input type="file" name="videos[]" class="form-control" id="videos" multiple>
+                    <input type="file" name="videos[]" class="form-control border border-2 p-2" id="videos" multiple>
                     @if ($post->videos)
                         <div class="mt-2">
                             <p>Existing Videos:</p>
@@ -55,7 +55,7 @@
 
                 <div class="mb-3">
                     <label for="author_id" class="form-label">Author</label>
-                    <select name="author_id" class="form-control" id="author_id" required>
+                    <select name="author_id" class="form-control border border-2 p-2" id="author_id" required>
                         <option value="">Select Author</option>
                         @foreach($authors as $author)
                             <option value="{{ $author->id }}" {{ old('author_id', $post->author_id) == $author->id ? 'selected' : '' }}>

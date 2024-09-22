@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BlogNews;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +25,8 @@ class BlogNewsController extends Controller
      */
     public function create()
     {
-        return view('dashboard.blog_news.create');
+        $authors=User::all();
+        return view('dashboard.blog_news.create', compact('authors'));
     }
 
     /**
@@ -34,33 +37,34 @@ class BlogNewsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'videos.*' => 'mimes:mp4,mov,ogg|max:10240',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp',
+            'videos.*' => 'mimes:mp4,mov,ogg',
         ]);
+        $images = $request->file('images');
+        $videos = $request->file('videos');
 
         // Handle image upload
-        $imagePaths = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('blog_images', 'public');
-                $imagePaths[] = $path;
+        if ($request->has('images')) {
+            $imageHelper = new ImageHelper;
+            $imagePaths = [];
+            foreach ($images as $image) {
+                $imagePaths[] = $imageHelper->storeImageInPublicDirectory($image, '/uploads/blogs/images', 600, 400);
             }
         }
 
         // Handle video upload
-        $videoPaths = [];
-        if ($request->hasFile('videos')) {
-            foreach ($request->file('videos') as $video) {
-                $path = $video->store('blog_videos', 'public');
-                $videoPaths[] = $path;
+        if ($request->has('videos')) {
+            $videoPaths = [];
+            foreach ($videos as $video) {
+                $videoPaths[] = $video->store('/uploads/blogs/videos', 'public');
             }
         }
 
         BlogNews::create([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
-            'images' => json_encode($imagePaths),
-            'videos' => json_encode($videoPaths),
+            'images' => $imagePaths ?? [],
+            'videos' => $videoPaths ?? [],
             'author_id' => auth()->id(),
         ]);
 
@@ -72,8 +76,10 @@ class BlogNewsController extends Controller
      */
     public function edit($id)
     {
-        $blogNews = BlogNews::findOrFail($id);
-        return view('dashboard.blog_news.edit', compact('blogNews'));
+        $post = BlogNews::findOrFail($id);
+        $authors=User::all();
+
+        return view('dashboard.blog_news.edit', compact('post', 'authors'));
     }
 
     /**
@@ -84,35 +90,37 @@ class BlogNewsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'videos.*' => 'mimes:mp4,mov,ogg|max:10240',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp',
+            'videos.*' => 'mimes:mp4,mov,ogg',
         ]);
 
         $blogNews = BlogNews::findOrFail($id);
 
+        $images = $request->file('images');
+        $videos = $request->file('videos');
+
         // Handle image upload
-        $imagePaths = json_decode($blogNews->images, true) ?? [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('blog_images', 'public');
-                $imagePaths[] = $path;
+        if ($request->has('images')) {
+            $imageHelper = new ImageHelper;
+            $imagePaths = [];
+            foreach ($images as $image) {
+                $imagePaths[] = $imageHelper->storeImageInPublicDirectory($image, '/uploads/blogs/images', 600, 400);
             }
         }
 
         // Handle video upload
-        $videoPaths = json_decode($blogNews->videos, true) ?? [];
-        if ($request->hasFile('videos')) {
-            foreach ($request->file('videos') as $video) {
-                $path = $video->store('blog_videos', 'public');
-                $videoPaths[] = $path;
+        if ($request->has('videos')) {
+            $videoPaths = [];
+            foreach ($videos as $video) {
+                $videoPaths[] = $video->store('/uploads/blogs/videos', 'public');
             }
         }
 
         $blogNews->update([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
-            'images' => json_encode($imagePaths),
-            'videos' => json_encode($videoPaths),
+            'images' => $imagePaths ?? [],
+            'videos' => $videoPaths ?? [],
         ]);
 
         return redirect()->route('dashboard.blog_news.index')->with('success', 'Blog/News post updated successfully.');
