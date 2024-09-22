@@ -89,8 +89,9 @@ event
     videos #
     comments  & Raing #
     favorite #
-    booking
+    booking #
 
+bookings #
 contact #
 about #
 

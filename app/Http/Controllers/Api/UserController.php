@@ -65,7 +65,14 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        $user->update($request->only(['name', 'email', 'password']));
+        // Check if the password is provided and encrypt it
+        $data = $request->only(['name', 'email']);
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        }
+
+        // Update user information
+        $user->update($data);
 
         return response()->json($user);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -51,5 +52,31 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json(['message' => 'Booking cancelled successfully.', 'booking' => $booking]);
+    }
+
+    // In your Laravel controller (or whichever framework you're using)
+    public function bookPackage(Request $request)
+    {
+        $validated = $request->validate([
+            'package_id' => 'required|exists:packages,id',
+            'booking_date' => 'required|date'
+        ]);
+
+        // Process the booking logic
+        // Create the booking in the database
+
+
+        $package = Package::findOrFail($validated['package_id']);
+        foreach ($package->events as $event) {
+
+            $booking = Booking::create([
+                'user_id' => auth()->id(),
+                'event_id' => $event->id,
+                'booking_date' => $validated['booking_date'],
+                'status' => 'pending'  // Default status
+            ]);
+        }
+
+        return response()->json(['message' => 'Booking successful', 'booking' => $booking]);
     }
 }

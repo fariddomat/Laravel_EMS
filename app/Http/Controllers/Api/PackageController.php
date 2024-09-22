@@ -10,7 +10,7 @@ class PackageController extends Controller
     // Fetch all packages
     public function index()
     {
-        $packages = Package::all();
+        $packages = Package::with('events')->get();
         return response()->json($packages);
     }
 
@@ -31,7 +31,7 @@ class PackageController extends Controller
     // Show a specific package
     public function show($id)
     {
-        $package = Package::findOrFail($id);
+        $package = Package::with('events')->findOrFail($id);
         return response()->json($package);
     }
 

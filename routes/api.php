@@ -31,13 +31,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'show']);
     Route::put('/user', [UserController::class, 'update']);
 
-    Route::apiResource('payments', PaymentController::class);
+    Route::get('/user-payments', [PaymentController::class, 'getUserPayments']);
 
     // Booking routes
 
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::get('/user-bookings', [BookingController::class, 'userBookings']);
     Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancelBooking']);
+    Route::post('book-package', [BookingController::class, 'bookPackage']);
+
 
     // Favorite routes
     // Get all favorites for the authenticated user
