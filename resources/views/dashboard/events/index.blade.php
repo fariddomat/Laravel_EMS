@@ -62,7 +62,7 @@
                                                 </th>
                                                 <th
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Type
+                                                    Status
                                                 </th>
                                                 <th class="text-secondary opacity-7"></th>
                                             </tr>
@@ -99,7 +99,7 @@
                                                     <td>
                                                         <div class="d-flex px-2 py-1">
                                                             <div class="d-flex flex-column justify-content-center">
-                                                                <h6 class="mb-0 text-capitalize">{{ $event->type }}
+                                                                <h6 class="mb-0 text-capitalize">{{ $event->status }}
                                                                 </h6>
                                                             </div>
                                                         </div>

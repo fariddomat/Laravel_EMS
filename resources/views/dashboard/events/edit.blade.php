@@ -31,6 +31,23 @@
                                 <p class='text-danger inputerror'>{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-control border border-2 p-2">
+                                <option value="pending" @if ($event->status =='pending')
+                                    selected
+                                @endif>pending</option>
+                                <option value="accepted" @if ($event->status =='accepted')
+                                    selected
+                                @endif>accept</option>
+                                <option value="canceled" @if ($event->status =='canceled')
+                                    selected
+                                @endif>canceled</option>
+                            </select>
+                            @error('status')
+                                <p class='text-danger inputerror'>{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="row">

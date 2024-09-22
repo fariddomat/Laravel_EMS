@@ -57,9 +57,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Remove a favorite
     Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
 
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::get('/notifications/count', [NotificationController::class, 'count']);
 
-    // Notification routes
-    Route::apiResource('notifications', NotificationController::class);
 
     // CommentRating routes
     Route::apiResource('comments-ratings', CommentRatingController::class);

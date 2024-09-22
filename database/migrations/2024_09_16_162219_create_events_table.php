@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('price'); // Event price
             $table->json('images')->nullable(); // List of images
             $table->json('videos')->nullable(); // List of videos
+            $table->string('status')->default('pending'); // List of videos
             $table->timestamps(); // Created at and updated at
         });
     }

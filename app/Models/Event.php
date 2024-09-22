@@ -17,7 +17,8 @@ class Event extends Model
         'description',
         'images',
         'videos',
-        'price'
+        'price',
+        'status'
     ];
 
     // Cast the images and videos attributes to arrays.
@@ -55,4 +56,26 @@ class Event extends Model
     {
         return $this->belongsToMany(Package::class, 'package_event');
     }
+
+    public function user()
+{
+    return $this->hasOneThrough(User::class, Company::class, 'id', 'id', 'company_id', 'user_id');
+}
+
+    public function setStatusAttribute($value)
+{
+    // Only proceed if the status is being updated to 'confirmed'
+    if ($this->status != $value) {
+        Notification::create([
+            'user_id' => $this->user->id, // The user who made the booking
+            'message' => 'The event "' . $this->name . '" has been "'.$value.'".',
+            'type' => 'auto',
+            'status' => 'unread',
+        ]);
+    }
+
+    // Finally, set the status attribute
+    $this->attributes['status'] = $value;
+}
+
 }

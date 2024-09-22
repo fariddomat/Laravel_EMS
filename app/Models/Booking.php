@@ -30,4 +30,19 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+     // Automatically notify user when status changes
+     public function setStatusAttribute($value)
+     {
+         $this->attributes['status'] = $value;
+
+         if ($this->isDirty('status')) {
+             Notification::create([
+                 'user_id' => $this->user_id,
+                 'message' => 'Your booking status has been updated to ' . $value,
+                 'type' => 'auto',
+                 'status' => 'unread',
+             ]);
+         }
+     }
 }

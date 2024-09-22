@@ -31,4 +31,19 @@ class Payment extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+     // Notify user when payment is made
+     public static function boot()
+     {
+         parent::boot();
+
+         static::created(function ($payment) {
+             Notification::create([
+                 'user_id' => $payment->user_id,
+                 'message' => 'Your payment of ' . $payment->amount . ' has been received.',
+                 'type' => 'auto',
+                 'status' => 'unread',
+             ]);
+         });
+     }
 }

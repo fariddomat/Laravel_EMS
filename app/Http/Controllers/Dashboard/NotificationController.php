@@ -35,7 +35,7 @@ class NotificationController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('dashboard.notifications.index');
+        return redirect()->route('notifications.index');
     }
 
     /**
@@ -44,6 +44,6 @@ class NotificationController extends Controller
     public function markAsRead(Notification $notification)
     {
         $notification->update(['status' => 'read']);
-        return redirect()->route('dashboard.notifications.index');
+        return redirect()->route('notifications.index');
     }
 }
