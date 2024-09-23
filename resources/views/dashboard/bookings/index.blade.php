@@ -23,6 +23,12 @@
                                 <td>{{ ucfirst($booking->status) }}</td>
                                 <td class="align-middle">
                                     <!-- Actions (e.g., Edit or Delete) -->
+                                    <a rel="tooltip" class="btn btn-success btn-link"
+                                    href="{{ route('dashboard.bookings.edit', $booking) }}"
+                                    data-original-title="" title="">
+                                    <i class="material-icons">edit</i>
+                                    <div class="ripple-container"></div>
+                                </a>
                                 </td>
                             </tr>
                         @endforeach

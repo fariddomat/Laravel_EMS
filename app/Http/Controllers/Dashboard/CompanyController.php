@@ -14,10 +14,19 @@ class CompanyController extends Controller
      * عرض قائمة الشركات.
      */
     public function index()
-    {
+{
+    // Check if the user has the 'owner' role
+    if (auth()->user()->hasRole('company')) {
+        // Get only the companies owned by the authenticated user
+        $companies = auth()->user()->companies;
+    } else {
+        // For other roles, return all companies
         $companies = Company::all();
-        return view('dashboard.companies.index', compact('companies'));
     }
+
+    return view('dashboard.companies.index', compact('companies'));
+}
+
 
     /**
      * عرض صفحة إنشاء شركة جديدة.

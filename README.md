@@ -15,10 +15,10 @@ Events
     model #
     view #
 
-Packages
-    Controller
-    model
-    view
+Packages #
+    Controller #
+    model #
+    view #
 
 Notifications
     Controller #
@@ -30,7 +30,7 @@ Blog
     model #
     view #
 
-Payemnt
+Payment
     Controller #
     model #
     view #
@@ -45,11 +45,6 @@ Bookings
     model #
     view #
 
-Carts  
-    controller 
-    model 
-    view 
-    user 
 
 CommentsRatings 
     controller #
@@ -60,7 +55,7 @@ CommentsRatings
 
 API
 
-user
+user #
 login #
 register #
 logout #
@@ -71,6 +66,7 @@ payments #resource
 favorites #resource #
 notifications #resource
 comments-ratings #resource #
+blogs #
 
 --------------------------------------
 Navbar #
@@ -103,9 +99,9 @@ companeis and event button from home screen #
 statistics  #
 website info #
 counter #
+approve accounts (admin)  and events (admin and moderators) #
+check previllege #
 
-approve accounts (admin)  and events (admin and moderators) 
-check previllege
 fill data
 predict events using RandomForest
 

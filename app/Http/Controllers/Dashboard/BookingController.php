@@ -30,6 +30,11 @@ class BookingController extends Controller
         return redirect()->route('dashboard.events.show', $request->event_id);
     }
 
+
+    public function edit(Booking $booking){
+        return view('dashboard.bookings.edit', compact('booking'));
+
+}
     /**
      * Update the status of a booking.
      */
@@ -51,7 +56,21 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with(['event', 'user'])->get();
+        // Check if the user has the 'owner' role
+        if (auth()->user()->hasRole('company')) {
+            // Get the companies owned by the user
+            $ownerCompanies = auth()->user()->companies;
+
+            // Get the bookings for events that belong to the owner's companies
+            $bookings = Booking::whereHas('event', function ($query) use ($ownerCompanies) {
+                $query->whereIn('company_id', $ownerCompanies->pluck('id'));
+            })->with(['event', 'user'])->get();
+        } else {
+            // For other roles, return all bookings
+            $bookings = Booking::with(['event', 'user'])->get();
+        }
+
         return view('dashboard.bookings.index', compact('bookings'));
     }
+
 }

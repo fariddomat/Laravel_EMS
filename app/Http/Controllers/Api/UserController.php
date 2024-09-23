@@ -51,6 +51,10 @@ class UserController extends Controller
         }
 
         $user = Auth::user();
+        if ($user->status == 'inActive') {
+
+            return response()->json(['error' => 'inActive account, need approve from admin'], 401);
+        }
         $token = $user->createToken('Personal Access Token')->plainTextToken;
 
         return response()->json(['token' => $token]);

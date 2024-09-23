@@ -33,9 +33,13 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Status</label>
                             <select name="status" class="form-control border border-2 p-2">
-                                <option value="pending">pending</option>
-                                <option value="accepted">accept</option>
-                                <option value="canceled">canceled</option>
+                                @if (auth()->user()->hasRole('company'))
+                                    <option value="pending">pending</option>
+                                @else
+                                    <option value="pending">pending</option>
+                                    <option value="accepted">accept</option>
+                                    <option value="canceled">canceled</option>
+                                @endif
                             </select>
                             @error('status')
                                 <p class='text-danger inputerror'>{{ $message }}</p>
@@ -47,12 +51,23 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Company</label>
                             <select name="company_id" class="form-control border border-2 p-2">
-                                <option value="">Select Company</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
-                                        {{ $company->name }}
-                                    </option>
-                                @endforeach
+                                @if (auth()->user()->hasRole('company'))
+                                    @foreach (auth()->user()->companies as $company)
+                                        <option value="{{ $company->id }}"
+                                            {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                            {{ $company->name }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="">Select Company</option>
+                                    @foreach ($companies as $company)
+                                        <option value="{{ $company->id }}"
+                                            {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                            {{ $company->name }}
+                                        </option>
+                                    @endforeach
+
+                                @endif
                             </select>
                             @error('company_id')
                                 <p class='text-danger inputerror'>{{ $message }}</p>
@@ -63,7 +78,8 @@
                             <label class="form-label">Type</label>
                             <select name="type" class="form-control border border-2 p-2">
                                 <option value="person" {{ old('type') == 'person' ? 'selected' : '' }}>Person</option>
-                                <option value="website" {{ old('type') == 'website' ? 'selected' : '' }}>Website</option>
+                                <option value="website" {{ old('type') == 'website' ? 'selected' : '' }}>Website
+                                </option>
                             </select>
                             @error('type')
                                 <p class='text-danger inputerror'>{{ $message }}</p>

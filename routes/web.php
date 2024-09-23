@@ -73,12 +73,17 @@ Route::middleware(['role:admin'])->prefix('dashboard')->name('dashboard.')->grou
     Route::resource('users', Dashboard\UserController::class);
     Route::get('/contact', [Dashboard\HomeController::class, 'contact'])->name('contact');
 });
-// owner
-Route::middleware(['role:admin||moderator|owner', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
+// company
+Route::middleware(['role:admin||moderator|company', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Routes accessible to admins and coach
 
 
+    Route::resource('companies', Dashboard\CompanyController::class);
+    Route::resource('events', Dashboard\EventController::class);
 
+    Route::resource('payments', Dashboard\PaymentController::class);
+    Route::resource('bookings', Dashboard\BookingController::class);
+    Route::resource('packages', Dashboard\PackageController::class);
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');
     Route::post('/imageGallery/uploader', [Dashboard\ImageGalleryController::class, 'uploader'])->name('imageGallery.uploader');
 });
@@ -87,13 +92,8 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
     // Routes accessible to admins and coach
 
     Route::resource('categories', Dashboard\CategoryController::class);
-    Route::resource('companies', Dashboard\CompanyController::class);
-    Route::resource('events', Dashboard\EventController::class);
     Route::resource('blog_news', Dashboard\BlogNewsController::class);
     Route::resource('comments_ratings', Dashboard\CommentRatingController::class);
-    Route::resource('payments', Dashboard\PaymentController::class);
-    Route::resource('bookings', Dashboard\BookingController::class);
-    Route::resource('packages', Dashboard\PackageController::class);
 
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');

@@ -17,11 +17,18 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label">User</label>
                             <select name="user_id" class="form-control border border-2 p-2">
+                                @if (auth()->user()->hasRole('company'))
+                                <option value="{{ auth()->user()->id }}" @if (auth()->user()->id == $company->user_id)
+                                    selected
+                                @endif>{{ auth()->user()->name }}</option>
+                                @else
                                 @foreach ($users as $user)
                                 <option value="{{ $user->id }}" @if ($user->id == $company->user_id)
                                     selected
                                 @endif>{{ $user->name }}</option>
                                 @endforeach
+
+                                @endif
                             </select>
                             @error('user_id')
                                 <p class='text-danger inputerror'>{{ $message }} </p>

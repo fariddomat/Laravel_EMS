@@ -61,19 +61,9 @@
 
 
 
-            @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('moderator'))
+            @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('moderator') || auth()->user()->hasRole('company'))
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Control</h6>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.categories.index' ? ' active bg-gradient-primary' : '' }} "
-                        href="{{ route('dashboard.categories.index') }}">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">book</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Categories</span>
-                    </a>
                 </li>
 
                 <li class="nav-item">
@@ -94,10 +84,7 @@
                         <span class="nav-link-text ms-1">Notifications</span>
                     </a>
                 </li>
-            @endif
 
-
-            @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('moderator') || auth()->user()->hasRole('owner'))
                 <li class="nav-item">
                     <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.events.index' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('dashboard.events.index') }}">
@@ -136,6 +123,10 @@
                         <span class="nav-link-text ms-1">Payments</span>
                     </a>
                 </li>
+
+                @endif
+
+            @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('moderator'))
                 <li class="nav-item">
                     <a class="nav-link text-white  {{ Route::currentRouteName() == 'dashboard.blog_news.index' ? ' active bg-gradient-primary' : '' }} "
                         href="{{ route('dashboard.blog_news.index') }}">

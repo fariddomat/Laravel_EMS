@@ -17,6 +17,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            if ($user->status == 'inActive') {
+
+                return response()->json(['error' => 'inActive account, need approve from admin'], 401);
+            }
             $token = $user->createToken('API Token')->plainTextToken;
             return response()->json(['token' => $token]);
         }

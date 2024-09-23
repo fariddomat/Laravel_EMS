@@ -15,9 +15,22 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::all();
+        // Check if the authenticated user has the 'owner' role
+        if (auth()->user()->hasRole('company')) {
+            // Retrieve payments for events owned by the authenticated user's companies
+            $payments = Payment::whereHas('event', function ($query) {
+                $query->whereHas('company', function ($companyQuery) {
+                    $companyQuery->where('user_id', auth()->user()->id);  // Assuming 'owner_id' is the user ID in the companies table
+                });
+            })->get();
+        } else {
+            // If the user is not an 'owner', retrieve all payments
+            $payments = Payment::all();
+        }
+
         return view('dashboard.payments.index', compact('payments'));
     }
+
 
     /**
      * Show the form for creating a new payment.
@@ -25,7 +38,16 @@ class PaymentController extends Controller
     public function create()
     {
         $users=User::all();
-        $events=Event::all();
+        if (auth()->user()->hasRole('company')) {
+            // Get the companies owned by the user
+            $ownerCompanies = auth()->user()->companies;
+
+            // Get the events that belong to the owner's companies
+            $events = Event::whereIn('company_id', $ownerCompanies->pluck('id'))->get();
+        } else {
+            // For other roles, return all events
+            $events = Event::all();
+        }
         return view('dashboard.payments.create', compact('users', 'events'));
     }
 
@@ -61,7 +83,16 @@ class PaymentController extends Controller
     {
 
         $users=User::all();
-        $events=Event::all();
+        if (auth()->user()->hasRole('company')) {
+            // Get the companies owned by the user
+            $ownerCompanies = auth()->user()->companies;
+
+            // Get the events that belong to the owner's companies
+            $events = Event::whereIn('company_id', $ownerCompanies->pluck('id'))->get();
+        } else {
+            // For other roles, return all events
+            $events = Event::all();
+        }
         return view('dashboard.payments.edit', compact('payment', 'users', 'events'));
     }
 

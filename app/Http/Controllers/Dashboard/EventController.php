@@ -15,9 +15,21 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        // Check if the user has the 'company' role
+        if (auth()->user()->hasRole('company')) {
+            // Get the companies owned by the user
+            $ownerCompanies = auth()->user()->companies;
+
+            // Get the events that belong to the owner's companies
+            $events = Event::whereIn('company_id', $ownerCompanies->pluck('id'))->get();
+        } else {
+            // For other roles, return all events
+            $events = Event::all();
+        }
+
         return view('dashboard.events.index', compact('events'));
     }
+
 
     /**
      * عرض صفحة إنشاء حدث جديد.
@@ -53,7 +65,7 @@ class EventController extends Controller
                 $imagePaths[] = $imageHelper->storeImageInPublicDirectory($image, '/uploads/events/images', 600, 400);
             }
         }
-        
+
         if ($request->has('videos')) {
             $videoPaths = [];
             foreach ($videos as $video) {
