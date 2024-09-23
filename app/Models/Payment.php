@@ -38,12 +38,16 @@ class Payment extends Model
          parent::boot();
 
          static::created(function ($payment) {
-             Notification::create([
-                 'user_id' => $payment->user_id,
-                 'message' => 'Your payment of ' . $payment->amount . ' has been received.',
-                 'type' => 'auto',
-                 'status' => 'unread',
-             ]);
+            try {
+                Notification::create([
+                    'user_id' => $payment->user_id,
+                    'message' => 'Your payment of ' . $payment->amount . ' has been received.',
+                    'type' => 'auto',
+                    'status' => 'unread',
+                ]);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
          });
      }
 }

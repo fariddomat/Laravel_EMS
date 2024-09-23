@@ -37,12 +37,16 @@ class Booking extends Model
          $this->attributes['status'] = $value;
 
          if ($this->isDirty('status')) {
-             Notification::create([
-                 'user_id' => $this->user_id,
-                 'message' => 'Your booking status has been updated to ' . $value,
-                 'type' => 'auto',
-                 'status' => 'unread',
-             ]);
+             try {
+                Notification::create([
+                    'user_id' => $this->user_id,
+                    'message' => 'Your booking status has been updated to ' . $value,
+                    'type' => 'auto',
+                    'status' => 'unread',
+                ]);
+             } catch (\Throwable $th) {
+                //throw $th;
+             }
          }
      }
 }

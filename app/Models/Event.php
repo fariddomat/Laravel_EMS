@@ -66,12 +66,17 @@ class Event extends Model
 {
     // Only proceed if the status is being updated to 'confirmed'
     if ($this->status != $value) {
-        Notification::create([
-            'user_id' => $this->user->id, // The user who made the booking
-            'message' => 'The event "' . $this->name . '" has been "'.$value.'".',
-            'type' => 'auto',
-            'status' => 'unread',
-        ]);
+        
+        try {
+            Notification::create([
+                'user_id' => $this->user->id, // The user who made the booking
+                'message' => 'The event "' . $this->name . '" has been "'.$value.'".',
+                'type' => 'auto',
+                'status' => 'unread',
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     // Finally, set the status attribute
