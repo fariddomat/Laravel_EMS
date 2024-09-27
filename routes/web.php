@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\FavoriteController;
 use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\EventRecommendationController;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\Home\QuizController;
 use App\Http\Controllers\Home\SiteController;
@@ -98,6 +99,10 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
 
     Route::get('/imageGallery/browser', [Dashboard\ImageGalleryController::class, 'browser'])->name('imageGallery.browser');
     Route::post('/imageGallery/uploader', [Dashboard\ImageGalleryController::class, 'uploader'])->name('imageGallery.uploader');
+
+
+Route::get('/train-model', [EventRecommendationController::class, 'trainModel'])->name('train.model');
+Route::get('/suggest-events', [EventRecommendationController::class, 'suggestEvents'])->name('suggest.events');
 });
 
 Route::middleware(['auth', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {

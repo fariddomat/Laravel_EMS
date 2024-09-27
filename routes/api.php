@@ -80,6 +80,8 @@ Route::get('/companies/{id}/events', [EventController::class, 'getEventsByCompan
 
 // Event routes
 Route::apiResource('events', EventController::class);
+Route::get('/home-events', [EventController::class, 'getHomeEvents']);
+Route::get('/events-page', [EventController::class, 'getPaginatedEvents']);
 
 
 Route::get('/packages', [PackageController::class, 'index']);
