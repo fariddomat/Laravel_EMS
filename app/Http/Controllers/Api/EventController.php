@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -79,5 +80,30 @@ class EventController extends Controller
         }
 
         return response()->json($events); // Return the events as JSON
+    }
+
+    public function getEvents(Request $request)
+    {
+        $search = $request->input('search');
+        $category = $request->input('category');
+        $query = Event::query();
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        }
+
+        if ($category) {
+            $query->where('category', $category);
+        }
+
+        $events = $query->paginate(8); // Adjust the number per page
+        return response()->json($events);
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 }

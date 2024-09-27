@@ -101,8 +101,8 @@ website info #
 counter #
 approve accounts (admin)  and events (admin and moderators) #
 check previllege #
+search - filter #
+fill data #
 
-fill data
 predict events using RandomForest
-search - filter
 
