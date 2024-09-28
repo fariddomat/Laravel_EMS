@@ -5,7 +5,7 @@ Users
     model  #
     view  #
 
-Companies ["Categories"]
+Companies
     controller #
     model #
     view #

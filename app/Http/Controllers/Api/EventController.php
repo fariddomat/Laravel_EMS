@@ -97,7 +97,7 @@ class EventController extends Controller
             $query->where('category', $category);
         }
 
-        $events = $query->paginate(8); // Adjust the number per page
+        $events = $query->paginate(9); // Adjust the number per page
         return response()->json($events);
     }
 
