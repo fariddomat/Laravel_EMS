@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Services\EventRecommendationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventRecommendationController extends Controller
 {
@@ -17,11 +19,15 @@ class EventRecommendationController extends Controller
     // Method to train the model (run this periodically)
     public function trainModel()
     {
-        $this->eventRecommendationService->trainModel();
-        return response()->json(['message' => 'Model trained successfully']);
+        try {
+            $this->eventRecommendationService->trainModel();
+            return response()->json(['message' => 'Model trained successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Model training failed', 'details' => $e->getMessage()], 500);
+        }
     }
 
-    // Method to suggest events for the logged-in user
+    // API Method to suggest events for the logged-in user
     public function suggestEvents()
     {
         $userId = auth()->id();

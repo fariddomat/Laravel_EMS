@@ -18,57 +18,72 @@ class EventRecommendationService
     }
 
     public function trainModel()
-{
-    $samples = [];
-    $labels = [];
+    {
+        $samples = [];
+        $labels = [];
 
-    // Gather training data from bookings and events
-    $bookings = Booking::with('event')->get();
+        // Gather training data from bookings and events
+        $bookings = Booking::with('event')->get();
 
-    foreach ($bookings as $booking) {
-        $samples[] = [$booking->event->category]; // Use the event's category as a feature
-        // Get suggested categories (make sure to extract just one category for simplicity)
-        $relatedCategories = $this->getSuggestedCategories($booking->event->category);
-        $labels[] = $relatedCategories[0] ?? 'other'; // Use the first related category as a label
-    }
-
-    // Train the model
-    $randomForest = new EnsembleRandomForest(100);
-    $randomForest->train($samples, $labels);
-
-    // Save the trained model
-    $modelManager = new ModelManager();
-    $modelManager->saveToFile($randomForest, storage_path('app/event_recommendation_model.phpml'));
-}
-
-public function suggestEvents($userId)
-{
-    $userBookings = Booking::with('event')->where('user_id', $userId)->get();
-    if ($userBookings->isEmpty()) {
-        return ['message' => 'No bookings found for this user.'];
-    }
-    $suggestions = [];
-    foreach ($userBookings as $booking) {
-        $predictedCategories = $this->model->predict([$booking->event->category]);
-
-        // Ensure predictions are valid before proceeding
-        if (isset($predictedCategories[0])) {
-            $suggestions = array_merge($suggestions, $this->getSuggestedCategories($booking->event->category));
+        foreach ($bookings as $booking) {
+            $samples[] = [$booking->event->category]; // Use the event's category as a feature
+            // Get suggested categories (make sure to extract just one category for simplicity)
+            $relatedCategories = $this->getSuggestedCategories($booking->event->category);
+            $labels[] = $relatedCategories[0] ?? 'other'; // Use the first related category as a label
         }
+
+        // Train the model
+        $randomForest = new EnsembleRandomForest(100);
+        $randomForest->train($samples, $labels);
+
+        // Save the trained model
+        $modelManager = new ModelManager();
+        $modelManager->saveToFile($randomForest, storage_path('app/event_recommendation_model.phpml'));
     }
-    return $suggestions;
-}
+
+    public function suggestEvents($userId)
+    {
+        $userBookings = Booking::with('event')->where('user_id', $userId)->get();
+        if ($userBookings->isEmpty()) {
+            $suggestedEvents=Event::inRandomOrder()->take(3)->get();
+
+        // dd($suggestedEvents);
+            return $suggestedEvents;
+        }
+
+        $suggestedEvents = [];
+
+        foreach ($userBookings as $booking) {
+            $predictedCategories = $this->model->predict([$booking->event->category]);
+
+            // Ensure predictions are valid before proceeding
+            if (isset($predictedCategories[0])) {
+                $suggestedCategories = $this->getSuggestedCategories($booking->event->category);
+
+                // For each suggested category, get random events from the category
+                foreach ($suggestedCategories as $category) {
+                    $randomEvent = Event::where('category', $category)->inRandomOrder()->first();
+
+                    if ($randomEvent) {
+                        $suggestedEvents[] = $randomEvent; // Add random event to the suggestions
+                    }
+                }
+            }
+        }
+
+        return $suggestedEvents;
+    }
 
     protected function loadModel()
     {
 
-    $modelPath = storage_path('app/event_recommendation_model.phpml');
-    if (file_exists($modelPath)) {
-        $modelManager = new ModelManager();
-        return $modelManager->restoreFromFile($modelPath);
-    } else {
-        throw new \Exception('Model file not found. Please train the model first.');
-    }
+        $modelPath = storage_path('app/event_recommendation_model.phpml');
+        if (file_exists($modelPath)) {
+            $modelManager = new ModelManager();
+            return $modelManager->restoreFromFile($modelPath);
+        } else {
+            throw new \Exception('Model file not found. Please train the model first.');
+        }
     }
     protected function getSuggestedCategories($category)
     {
@@ -104,7 +119,7 @@ public function suggestEvents($userId)
             }
         }
 
-    // If not found, return an empty array
-    return [];
+        // If not found, return an empty array
+        return [];
     }
 }

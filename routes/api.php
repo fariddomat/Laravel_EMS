@@ -22,9 +22,13 @@ use App\Http\Controllers\API\CommentRatingController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\EventController;
+use App\Http\Controllers\API\EventRecommendationController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\PackageController;
+use App\Http\Controllers\API\SuggestionController;
+
+Route::get('/event-suggestions', [EventRecommendationController::class, 'suggestEvents']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Authenticated routes
@@ -41,6 +45,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancelBooking']);
     Route::post('book-package', [BookingController::class, 'bookPackage']);
 
+
+
+    Route::post('/train-model', [EventRecommendationController::class, 'trainModel']);
 
     // Favorite routes
     // Get all favorites for the authenticated user

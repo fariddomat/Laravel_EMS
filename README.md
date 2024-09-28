@@ -103,6 +103,5 @@ approve accounts (admin)  and events (admin and moderators) #
 check previllege #
 search - filter #
 fill data #
-
-predict events using RandomForest
+predict events using RandomForest #
 
