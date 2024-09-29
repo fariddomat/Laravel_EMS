@@ -6,7 +6,7 @@ use App\Services\EventRecommendationService;
 use Illuminate\Http\Request;
 
 class EventRecommendationController extends Controller
-{
+{ 
     protected $eventRecommendationService;
 
     public function __construct(EventRecommendationService $service)

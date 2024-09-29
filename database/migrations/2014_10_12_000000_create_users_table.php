@@ -25,6 +25,8 @@ return new class extends Migration
 
             $table->rememberToken();
             $table->timestamps();
+            // created_at
+            // updated_at
         });
     }
 

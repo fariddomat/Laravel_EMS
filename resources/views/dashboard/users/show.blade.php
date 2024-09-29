@@ -37,7 +37,7 @@
 
 
                         <div class="mb-3 col-md-12">
-                            <img class="avatar" src="{{ asset($user->image) }}" alt="" style="height: 150px;
+                            <img class="avatar" src="{{ asset($user->profile_picture) }}" alt="" style="height: 150px;
                             width: 150px;">
 
                         </div>

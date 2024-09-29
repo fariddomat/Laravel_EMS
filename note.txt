@@ -1,0 +1,43 @@
+note.txt
+
+MVC
+model => database
+    migration
+    Model
+    Relation between model
+    ORM => object  relation maneger
+
+    all
+    where -> latest -> take -> get
+    create
+    update
+    delete
+
+view
+    index
+    create
+    show
+    edit
+
+controller => contact view and model
+    index
+    create
+    store
+    show
+    edit
+    update
+    destroy
+
+// laravel
+Route => controller => get data (Model) => return data to view
+// api
+Route => controller => get data (Model) => return data to api as json
+
+Role & permission
+
+API
+
+React
+
+AI Model
+

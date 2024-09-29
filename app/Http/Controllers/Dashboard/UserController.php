@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // Pagination example
+        $users = User::all(); 
         return view('dashboard.users.index', compact('users'));
     }
 
@@ -147,5 +147,5 @@ class UserController extends Controller
         return redirect()->route('dashboard.users.index')->with('success', 'User deleted successfully!');
     }
 
-    
+
 }

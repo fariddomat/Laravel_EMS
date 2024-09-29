@@ -11,7 +11,4 @@ class Category extends Model
 
     protected $guarded=[];
 
-    public function properties(){
-        return $this->hasMany(Property::class);
-    }
 }

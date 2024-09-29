@@ -65,6 +65,7 @@ Route::middleware(['auth', 'checkStatus'])->prefix('dashboard')->name('dashboard
 
     // suggestion
 });
+
 Route::middleware(['role:admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Routes accessible only to admins
 
