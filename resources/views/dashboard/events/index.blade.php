@@ -33,7 +33,7 @@
                         <div class="card my-4">
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div class="row bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                    <h6 class="col-6 text-white text-capitalize ps-3">Events Table</h6>
+                                    <h6 class="col-6 text-white text-capitalize ps-3">Services Table</h6>
                                     <div class="col-6 text-end">
                                         <a class="btn bg-gradient-dark mb-0"
                                             href="{{ route('dashboard.events.create') }}">
