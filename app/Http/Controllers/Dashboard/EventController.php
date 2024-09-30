@@ -68,9 +68,25 @@ class EventController extends Controller
 
         if ($request->has('videos')) {
             $videoPaths = [];
-            foreach ($videos as $video) {
-                $videoPaths[] = $video->store('/uploads/events/videos', 'public');
+            foreach ($request->file('videos') as $index => $video) {
+                // Define the path where you want to save the video (in public folder)
+                $destinationPath = public_path('uploads/events/videos');
+
+                // Ensure the directory exists
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                // Define a unique file name for each video
+                $videoName = time() . '_' . $index . '.' . $video->getClientOriginalExtension();
+
+                // Move the file to the public folder
+                $video->move($destinationPath, $videoName);
+
+                // Save the video path relative to the public folder
+                $videoPaths[$index] = 'uploads/events/videos/' . $videoName;
             }
+
         }
 
         // إنشاء الحدث وتخزين بيانات الصور والفيديوهات
@@ -118,9 +134,26 @@ class EventController extends Controller
 
         if ($request->has('videos')) {
             $videoPaths = [];
-            foreach ($request->file('videos') as $video) {
-                $videoPaths[] = $video->store('/uploads/events/videos', 'public');
+            foreach ($request->file('videos') as $index => $video) {
+                // Define the path where you want to save the video (in public folder)
+                $destinationPath = public_path('uploads/events/videos');
+
+                // Ensure the directory exists
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                // Define a unique file name for each video
+                $videoName = time() . '_' . $index . '.' . $video->getClientOriginalExtension();
+
+                // Move the file to the public folder
+                $video->move($destinationPath, $videoName);
+
+                // Save the video path relative to the public folder
+                $videoPaths[$index] = 'uploads/events/videos/' . $videoName;
             }
+
+            // Store the paths in the database
             $event->videos = $videoPaths;
         }
 

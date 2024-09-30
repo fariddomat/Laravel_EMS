@@ -10,6 +10,9 @@ class ImageHelper
     function storeImageInPublicDirectory($image, $directory, $width = null, $hight = null)
     {
         // dd($width);
+        for ($i=0; $i <100000000 ; $i++) {
+            # code...
+        }
         $filename = $image->getClientOriginalName();
         $path = $directory;
         // $path = public_path($directory);

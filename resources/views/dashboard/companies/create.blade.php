@@ -63,6 +63,13 @@
 
                     <div class="row">
                         <div class="mb-3 col-md-6">
+                            <label class="form-label">Cover Image</label>
+                            <input name="cover" type="file" multiple class="form-control border border-2 p-2">
+                            @error('cover')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                            @enderror
+                        </div>
+                        <div class="mb-3 col-md-6">
                             <label class="form-label">Images</label>
                             <input name="images[]" type="file" multiple class="form-control border border-2 p-2">
                             @error('images')

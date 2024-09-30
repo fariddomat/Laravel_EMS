@@ -54,6 +54,13 @@ class CompanyController extends Controller
         $images = $request->file('images');
         $videos = $request->file('videos');
 
+        // $coverPath
+        if ($request->has('cover')) {
+            $imageHelper = new ImageHelper;
+            $image = $request->file('cover');
+            $coverPath = '';
+            $coverPath = $imageHelper->storeImageInPublicDirectory($image, '/uploads/companies/images', 600, 400);
+        }
         // تخزين الصور والفيديوهات باستخدام ImageHelper أو طريقة خاصة بك
         if ($request->has('images')) {
             $imageHelper = new ImageHelper;
@@ -65,13 +72,30 @@ class CompanyController extends Controller
 
         if ($request->has('videos')) {
             $videoPaths = [];
-            foreach ($videos as $video) {
-                $videoPaths[] = $video->store('/uploads/companies/videos', 'public');
+            foreach ($request->file('videos') as $index => $video) {
+                // Define the path where you want to save the video (in public folder)
+                $destinationPath = public_path('uploads/companies/videos');
+
+                // Ensure the directory exists
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                // Define a unique file name for each video
+                $videoName = time() . '_' . $index . '.' . $video->getClientOriginalExtension();
+
+                // Move the file to the public folder
+                $video->move($destinationPath, $videoName);
+
+                // Save the video path relative to the public folder
+                $videoPaths[$index] = 'uploads/companies/videos/' . $videoName;
             }
+
         }
 
         // إنشاء الشركة وتخزين بيانات الصور والفيديوهات
         $company = Company::create($request->except(['images', 'videos']));
+        $company->cover = $coverPath ?? '';
         $company->images = $imagePaths ?? [];
         $company->videos = $videoPaths ?? [];
         $company->save();
@@ -102,25 +126,52 @@ class CompanyController extends Controller
             'type' => 'required|in:person,website'
         ]);
 
+        // $coverPath
+        if ($request->has('cover')) {
+            $imageHelper = new ImageHelper;
+            $image = $request->file('cover');
+            $coverPath = '';
+            $coverPath = $imageHelper->storeImageInPublicDirectory($image, '/uploads/companies/images', 600, 400);
+            $company->cover = $coverPath;
+        }
         // معالجة الصور والفيديوهات إذا تم تحميل أي منها
         if ($request->has('images')) {
             $imageHelper = new ImageHelper;
             $imagePaths = [];
-            foreach ($request->file('images') as $image) {
-                $imagePaths[] = $imageHelper->storeImageInPublicDirectory($image, '/uploads/companies/images', 600, 400);
+            foreach ($request->file('images') as $index=>$image) {
+                $imagePaths[$index] = $imageHelper->storeImageInPublicDirectory($image, '/uploads/companies/images', 600, 400);
             }
             $company->images = $imagePaths;
         }
 
         if ($request->has('videos')) {
             $videoPaths = [];
-            foreach ($request->file('videos') as $video) {
-                $videoPaths[] = $video->store('/uploads/companies/videos', 'public');
+            foreach ($request->file('videos') as $index => $video) {
+                // Define the path where you want to save the video (in public folder)
+                $destinationPath = public_path('uploads/companies/videos');
+
+                // Ensure the directory exists
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                // Define a unique file name for each video
+                $videoName = time() . '_' . $index . '.' . $video->getClientOriginalExtension();
+
+                // Move the file to the public folder
+                $video->move($destinationPath, $videoName);
+
+                // Save the video path relative to the public folder
+                $videoPaths[$index] = 'uploads/companies/videos/' . $videoName;
             }
-            $company->videos = $videoPaths;
+
+            // Store the paths in the database
+            $company->videos = json_encode($videoPaths);
         }
 
-        $company->update($request->except(['images', 'videos']));
+
+        $company->update($request->except(['images', 'videos', 'cover']));
+
         $company->save();
 
         return redirect()->route('dashboard.companies.index');
