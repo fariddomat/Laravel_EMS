@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\API\BookingController;
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\API\CommentRatingController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\ContactController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\EventRecommendationController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\API\PackageController;
 use App\Http\Controllers\API\SuggestionController;
 
@@ -45,7 +47,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancelBooking']);
     Route::post('book-package', [BookingController::class, 'bookPackage']);
 
+    Route::post('/checkout', [BookingController::class, 'checkout']);
+    // Cart routes
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::get('/cart', [CartController::class, 'getCart']);
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);
 
+    // Order routes
+    Route::get('/orders', [OrderController::class, 'getOrders']);
+    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancelOrder']);
 
     Route::post('/train-model', [EventRecommendationController::class, 'trainModel']);
 

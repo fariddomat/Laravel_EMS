@@ -60,7 +60,7 @@
                 <input type="password" name="password_confirmation" id="" required>
                 <span>enter your password again</span>
             </div>
-            <button type="submit" value="sign"> إنشاء حساب</button>
+            <button type="submit" value="sign"> new account</button>
         </form>
     </div>
     <script src="{{ asset('home/assets/JS files/login.js') }}"></script>

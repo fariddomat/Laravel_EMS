@@ -176,7 +176,7 @@
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
 
         <div class="mx-3">
-            <a class="btn bg-gradient-primary w-100" href="{{ route('home') }}" target="_blank" type="button">Home
+            <a class="btn bg-gradient-primary w-100" href="http://127.0.0.1:3000" target="_blank" type="button">Home
                 Page</a>
         </div>
     </div>

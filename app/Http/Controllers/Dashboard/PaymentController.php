@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Payment;
 use App\Models\User;
@@ -37,7 +38,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $users=User::all();
+        $users = User::all();
         if (auth()->user()->hasRole('company')) {
             // Get the companies owned by the user
             $ownerCompanies = auth()->user()->companies;
@@ -82,7 +83,7 @@ class PaymentController extends Controller
     public function edit(Payment $payment)
     {
 
-        $users=User::all();
+        $users = User::all();
         if (auth()->user()->hasRole('company')) {
             // Get the companies owned by the user
             $ownerCompanies = auth()->user()->companies;
@@ -93,6 +94,7 @@ class PaymentController extends Controller
             // For other roles, return all events
             $events = Event::all();
         }
+
         return view('dashboard.payments.edit', compact('payment', 'users', 'events'));
     }
 
@@ -101,6 +103,8 @@ class PaymentController extends Controller
      */
     public function update(Request $request, Payment $payment)
     {
+
+        $old = $payment->status;
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'event_id' => 'required|exists:events,id',
@@ -110,6 +114,15 @@ class PaymentController extends Controller
 
         $payment->update($request->all());
 
+        if ($old != $request->status) {
+
+            if ($request->status == 'completed') {
+                // Automatically update the corresponding booking status to 'confirmed'
+                Booking::where('user_id', $payment->user_id)
+                    ->where('event_id', $payment->event_id)
+                    ->update(['status' => 'accepted']);
+            }
+        }
         return redirect()->route('dashboard.payments.index');
     }
 

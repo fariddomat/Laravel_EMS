@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Event;
 use App\Models\Package;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -78,5 +80,30 @@ class BookingController extends Controller
         }
 
         return response()->json(['message' => 'Booking successful', 'booking' => $booking]);
+    }
+
+    public function checkout(Request $request)
+    {
+        $bookings = $request->input('bookings');
+
+        foreach ($bookings as $bookingData) {
+            Booking::create([
+                'event_id' => $bookingData['event_id'],
+                'user_id' => auth()->id(), // Assuming user is authenticated
+                'booking_date' => $bookingData['booking_date'] ?? now(),
+                'details' => $bookingData['details'],
+                'status' => 'pending',
+            ]);
+            // Automatically create a pending payment for each booking
+            $event = Event::findOrFail($bookingData['event_id']);
+            Payment::create([
+                'user_id' => auth()->id(),
+                'event_id' => $bookingData['event_id'],
+                'amount' => $event->price, // assuming you pass the price in bookings data
+                'status' => 'pending',
+            ]);
+        }
+
+        return response()->json(['message' => 'Booking checkout completed successfully!'], 200);
     }
 }
