@@ -120,7 +120,7 @@ class PaymentController extends Controller
                 // Automatically update the corresponding booking status to 'confirmed'
                 Booking::where('user_id', $payment->user_id)
                     ->where('event_id', $payment->event_id)
-                    ->update(['status' => 'accepted']);
+                    ->update(['status' => 'confirmed']);
             }
         }
         return redirect()->route('dashboard.payments.index');
