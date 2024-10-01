@@ -28,10 +28,16 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/dashboard/home', function () {
+    if (auth()->user()->hasRole('company') && auth()->user()->companies->count() < 1) {
+        return redirect()->route('dashboard.companies.create');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', function () {
+    if (auth()->user()->hasRole('company') && auth()->user()->companies->count() < 1) {
+        return redirect()->route('dashboard.companies.create');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('home');
 
@@ -102,8 +108,8 @@ Route::middleware(['role:admin||moderator', 'checkStatus'])->prefix('dashboard')
     Route::post('/imageGallery/uploader', [Dashboard\ImageGalleryController::class, 'uploader'])->name('imageGallery.uploader');
 
 
-Route::get('/train-model', [EventRecommendationController::class, 'trainModel'])->name('train.model');
-Route::get('/suggest-events', [EventRecommendationController::class, 'suggestEvents'])->name('suggest.events');
+    Route::get('/train-model', [EventRecommendationController::class, 'trainModel'])->name('train.model');
+    Route::get('/suggest-events', [EventRecommendationController::class, 'suggestEvents'])->name('suggest.events');
 });
 
 Route::middleware(['auth', 'checkStatus'])->prefix('dashboard')->name('dashboard.')->group(function () {

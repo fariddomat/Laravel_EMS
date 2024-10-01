@@ -97,7 +97,7 @@ class CompanyController extends Controller
         $company = Company::create($request->except(['images', 'videos']));
         $company->cover = $coverPath ?? '';
         $company->images = $imagePaths ?? [];
-        $company->videos = $videoPaths ?? [];
+        $company->videos = json_encode($videoPaths) ?? [];
         $company->save();
 
         return redirect()->route('dashboard.companies.index');

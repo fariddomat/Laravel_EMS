@@ -111,10 +111,27 @@ class BlogNewsController extends Controller
         // Handle video upload
         if ($request->has('videos')) {
             $videoPaths = [];
-            foreach ($videos as $video) {
-                $videoPaths[] = $video->store('/uploads/blogs/videos', 'public');
+            foreach ($request->file('videos') as $index => $video) {
+                // Define the path where you want to save the video (in public folder)
+                $destinationPath = public_path('uploads/blogs/videos');
+
+                // Ensure the directory exists
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+
+                // Define a unique file name for each video
+                $videoName = time() . '_' . $index . '.' . $video->getClientOriginalExtension();
+
+                // Move the file to the public folder
+                $video->move($destinationPath, $videoName);
+
+                // Save the video path relative to the public folder
+                $videoPaths[$index] = 'uploads/blogs/videos/' . $videoName;
             }
+
         }
+
 
         $blogNews->update([
             'title' => $request->input('title'),
