@@ -17,12 +17,11 @@
                             <label class="form-label">User</label>
                             <select name="user_id" class="form-control border border-2 p-2">
                                 @if (auth()->user()->hasRole('company'))
-                                <option value="{{ auth()->user()->id }}">{{ auth()->user()->name }}</option>
-
+                                    <option value="{{ auth()->user()->id }}">{{ auth()->user()->name }}</option>
                                 @else
-                                @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
 
                                 @endif
                             </select>
@@ -44,7 +43,8 @@
                             <label class="form-label">Type</label>
                             <select name="type" class="form-control border border-2 p-2">
                                 <option value="person" {{ old('type') == 'person' ? 'selected' : '' }}>Person</option>
-                                <option value="website" {{ old('type') == 'website' ? 'selected' : '' }}>Website</option>
+                                <option value="website" {{ old('type') == 'website' ? 'selected' : '' }}>Website
+                                </option>
                             </select>
                             @error('type')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
@@ -53,8 +53,13 @@
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Roles</label>
-                            <input name="roles" type="text" class="form-control border border-2 p-2"
-                                value="{{ old('roles') }}" placeholder="Photographer, Hair Stylist, etc.">
+                            <select name="roles" class="form-control border border-2 p-2">
+                                <option value="">Please select role</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+
                             @error('roles')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror

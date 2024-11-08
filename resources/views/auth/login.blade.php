@@ -37,7 +37,7 @@
                 <span>enter your password</span>
             </div>
             <input type="submit" value="login">
-            <a href="" class="link">انشاء حساب</a>
+            <a href="" class="link">register</a>
         </form>
 
         <form class="sign" action="{{ route('register') }}" method="POST" style="text-align: center">

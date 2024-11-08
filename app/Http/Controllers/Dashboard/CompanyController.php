@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,8 +34,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        $categories=Category::all();
         $users = User::all();
-        return view('dashboard.companies.create', compact('users'));
+        return view('dashboard.companies.create', compact('users', 'categories'));
     }
 
     /**
@@ -108,8 +110,9 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        $categories=Category::all();
         $users = User::all();
-        return view('dashboard.companies.edit', compact('company', 'users'));
+        return view('dashboard.companies.edit', compact('company', 'users', 'categories'));
     }
 
     /**

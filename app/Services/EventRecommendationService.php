@@ -6,6 +6,7 @@ use Phpml\Classification\RandomForest;
 use Phpml\ModelManager;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Models\favorite;
 use Phpml\Classification\Ensemble\RandomForest as EnsembleRandomForest;
 
 class EventRecommendationService
@@ -22,50 +23,91 @@ class EventRecommendationService
         $samples = [];
         $labels = [];
 
-        // Gather training data from bookings and events
-        $bookings = Booking::with('event')->get();
+        // جمع البيانات من الحجوزات والأحداث
+        $bookings = Booking::with('event', 'user')->get();
 
         foreach ($bookings as $booking) {
-            $samples[] = [$booking->event->category]; // Use the event's category as a feature
-            // Get suggested categories (make sure to extract just one category for simplicity)
-            $relatedCategories = $this->getSuggestedCategories($booking->event->category);
-            $labels[] = $relatedCategories[0] ?? 'other'; // Use the first related category as a label
+            $event = $booking->event;
+            // جمع ميزات متعددة مثل الفئة والموقع والتاريخ والسعر والشعبية وعمر المستخدم
+            $samples[] = [
+                $event->category,          // فئة الحدث
+                $event->price,             // سعر الحدث
+            ];
+            // الحصول على الفئات المقترحة
+            $relatedCategories = $this->getSuggestedCategories($event->category);
+            $labels[] = $relatedCategories[0] ?? 'other';  // استخدام أول فئة مقترحة كتصنيف
         }
 
-        // Train the model
-        $randomForest = new EnsembleRandomForest(100);
-        $randomForest->train($samples, $labels);
+        // تقسيم البيانات إلى 80% للتدريب و 20% للاختبار
+        $trainSize = floor(0.8 * count($samples));
+        $trainSamples = array_slice($samples, 0, $trainSize);
+        $trainLabels = array_slice($labels, 0, $trainSize);
+        $testSamples = array_slice($samples, $trainSize);
+        $testLabels = array_slice($labels, $trainSize);
 
-        // Save the trained model
+        // تدريب النموذج باستخدام RandomForest
+        $randomForest = new EnsembleRandomForest(200); // زيادة عدد الأشجار لتحسين الأداء
+        $randomForest->train($trainSamples, $trainLabels);
+
+        // اختبار النموذج باستخدام مجموعة الاختبار
+        $predictions = $randomForest->predict($testSamples);
+
+        // حساب الدقة باستخدام مجموعة الاختبار
+        $correct = 0;
+        for ($i = 0; $i < count($testLabels); $i++) {
+            if ($testLabels[$i] == $predictions[$i]) {
+                $correct++;
+            }
+        }
+
+        $accuracy = $correct / count($testLabels);
+        echo "Model Accuracy: " . ($accuracy * 100) . "%";
+        // حفظ النموذج المدرب
         $modelManager = new ModelManager();
         $modelManager->saveToFile($randomForest, storage_path('app/event_recommendation_model.phpml'));
+        echo "Model trained and saved successfully.";
     }
+
 
     public function suggestEvents($userId)
     {
+        // استرجاع الأحداث المحجوزة والمفضلة للمستخدم
         $userBookings = Booking::with('event')->where('user_id', $userId)->get();
-        if ($userBookings->isEmpty()) {
-            $suggestedEvents=Event::inRandomOrder()->take(3)->get();
+        $userFavorites = favorite::with('event')->where('user_id', $userId)->get();
 
-        // dd($suggestedEvents);
+        if ($userBookings->isEmpty() && $userFavorites->isEmpty()) {
+            // إذا لم يكن لدى المستخدم حجوزات أو مفضلات، تقديم أحداث عشوائية
+            $suggestedEvents = Event::inRandomOrder()->take(3)->get();
             return $suggestedEvents;
         }
 
         $suggestedEvents = [];
 
+        // إعطاء الأولوية للأحداث المفضلة في التنبؤات
+        foreach ($userFavorites as $favorite) {
+            $predictedCategories = $this->model->predict([$favorite->event->category]);
+
+            if (isset($predictedCategories[0])) {
+                $suggestedCategories = $this->getSuggestedCategories($favorite->event->category);
+                foreach ($suggestedCategories as $category) {
+                    $randomEvent = Event::where('category', $category)->inRandomOrder()->first();
+                    if ($randomEvent) {
+                        $suggestedEvents[] = $randomEvent;
+                    }
+                }
+            }
+        }
+
+        // إضافة تنبؤات بناءً على الحجوزات السابقة أيضًا
         foreach ($userBookings as $booking) {
             $predictedCategories = $this->model->predict([$booking->event->category]);
 
-            // Ensure predictions are valid before proceeding
             if (isset($predictedCategories[0])) {
                 $suggestedCategories = $this->getSuggestedCategories($booking->event->category);
-
-                // For each suggested category, get random events from the category
                 foreach ($suggestedCategories as $category) {
                     $randomEvent = Event::where('category', $category)->inRandomOrder()->first();
-
                     if ($randomEvent) {
-                        $suggestedEvents[] = $randomEvent; // Add random event to the suggestions
+                        $suggestedEvents[] = $randomEvent;
                     }
                 }
             }
@@ -73,6 +115,7 @@ class EventRecommendationService
 
         return $suggestedEvents;
     }
+
 
     protected function loadModel()
     {

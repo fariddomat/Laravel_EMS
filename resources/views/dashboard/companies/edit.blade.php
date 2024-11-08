@@ -58,8 +58,14 @@
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Roles</label>
-                            <input name="roles" type="text" class="form-control border border-2 p-2"
-                                value="{{ old('roles', $company->roles) }}" placeholder="Photographer, Hair Stylist, etc.">
+                            <select name="roles" class="form-control border border-2 p-2">
+                                <option value="">Please select role</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->name }}" @if ($company->roles == $category->name)
+                                        selected
+                                    @endif>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                             @error('roles')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror
